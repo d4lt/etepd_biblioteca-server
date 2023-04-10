@@ -10,10 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Student {
-  id   String @id @default(uuid())
-  name String
-  email String
+model Book {
+  id String @id @default(uuid())
+  title String
+  author String
+  isbn String @unique
+  
+  @@map("books")
 }
 
 

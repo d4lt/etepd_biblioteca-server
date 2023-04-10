@@ -1,10 +1,13 @@
 import { Router } from "express";
-import { LoginController } from "./controllers/loginController";
+import {BookController} from "./controllers/bookController";
+import { PrismaRepository } from "./repositories/prismaRepository";
 
-const loginController = new LoginController();
+const repository = new PrismaRepository();
+
+const bookController = new BookController(repository);
 
 const router = Router();
 
-router.get("/users", loginController.login)
+router.get("/home", bookController.listBooks)
 
 export { router }
