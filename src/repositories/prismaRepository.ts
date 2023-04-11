@@ -1,9 +1,7 @@
 import { BookRepository, StudentRepository } from "./Repositories";
 import { prisma } from "../lib/prisma"
 import { Book as RawBook} from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime"; 
 import { Book } from "../entities/bookEntity";
-import { warn } from "console";
 
 function toBook(prismaRaw: RawBook): Book {
 
@@ -18,6 +16,7 @@ function toBook(prismaRaw: RawBook): Book {
 }
 
 export class PrismaRepository implements BookRepository {
+
     async findMany(): Promise<Book[]> {
         const prismaRaw = await prisma.book.findMany()
 
@@ -27,21 +26,20 @@ export class PrismaRepository implements BookRepository {
     }
 
     async findBookByIsbn(isbn: string): Promise<Book | null> {
-        try {
-            const prismaRaw = await prisma.book.findUniqueOrThrow({
-                where: {
-                    isbn: isbn
-                }
-            }) 
-            
-            const book = toBook(prismaRaw) 
-        } catch(e) {
-            
-            if ( e instanceof PrismaClientKnownRequestError ){
-                
+        const prismaRaw = await prisma.book.findUnique({
+
+            where: {
+                isbn: isbn
             }
+        }) 
+        
+        if (!prismaRaw){
+            return null
         }
-        return book 
+
+        const book = toBook(prismaRaw) 
+
+        return book
     }
 
     async findBookByTitle(title: string): Promise<Book[]> {
