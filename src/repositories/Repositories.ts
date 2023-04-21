@@ -7,4 +7,4 @@ export interface BookRepository {
     findBookByTitle(title: string): Promise<Book[]>
 }
 
-export interface StudentRepository { }
+export interface UserRepository { }

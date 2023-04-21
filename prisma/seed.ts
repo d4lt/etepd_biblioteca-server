@@ -1,53 +1,122 @@
 import { PrismaClient } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 const prisma = new PrismaClient();
 
-interface bookFields {
-    id: string;
-    title: string;
-    author: string;
-    isbn: string;
-
+const user1 = {
+    id: randomUUID(),
+    name: 'Alice',
 }
 
-const book1: bookFields = { 
-    id: '13cddfcd-7108-4068-8d84-34855f6179a7',
+const user2 = {
+    id: randomUUID(),
+    name: 'Bob',
+}
+
+const user3 = {
+    id: randomUUID(),
+    name: 'Joe',
+}
+
+const book1 = { 
+    id: randomUUID(),
     title: 'The Art of War',
     author: 'Sun Tzu',
     isbn: '9781599869773'
 }
 
-const book2: bookFields = { 
-    id: 'a22c29da-e15f-41a8-bd4f-1055c08f5de7',
+const book2 = { 
+    id: randomUUID(),
     title: "1984",
     author: 'George Orwell',
     isbn: '9791280035356'
 }
 
-const book3: bookFields = { 
-    id: '0d21263a-de29-4d91-bbd8-c93cf92c7266',
+const book3 = { 
+    id: randomUUID(),
     title: "Hamlet",
     author: 'Shakespeare',
     isbn: '9780743477123'
 
 }
 
-const books = [book1, book2, book3]
+
+async function populateUser() {
+
+
+}
+
+async function populateBook() {
+
+    prisma.book.create({
+        data: {
+            ...book1
+        }
+    })
+
+    prisma.book.create({
+        data: {
+            ...book2
+        }
+    })
+
+    prisma.book.create({
+        data: {
+            ...book3
+        }
+    })
+
+}
 
 async function run(){
 
     await prisma.book.deleteMany()
+    await prisma.user.deleteMany()
 
-    books.forEach( async (book) => {
-        await prisma.book.create({
+    await Promise.all([
+
+        prisma.book.create({
             data: {
-                id: book.id,
-                title: book.title,
-                author: book.author,
-                isbn: book.isbn
+                ...book1
+            }
+        }),
+
+        prisma.book.create({
+            data: {
+                ...book2
+            }
+        }),
+
+        prisma.book.create({
+            data: {
+                ...book3
             }
         })
-    })
+
+    ])
+
+    await Promise.all([
+
+        prisma.user.create({
+            data: {
+                ...user1
+            }
+        }),
+
+        prisma.user.create({
+            data: {
+                ...user2
+            }
+        }),
+
+        prisma.user.create({
+            data: {
+                ...user3
+            }
+        })
+
+    ])
+
 }
 
 run()
