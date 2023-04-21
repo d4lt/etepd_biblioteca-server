@@ -25,6 +25,20 @@ export class PrismaRepository implements BookRepository {
         return books
     }
 
+    async findBookById(id: string): Promise<Book | null> {
+        const prismaRaw = await prisma.book.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        if(!prismaRaw) return null
+
+        const book = toBook(prismaRaw)
+
+        return book
+    }
+
     async findBookByIsbn(isbn: string): Promise<Book | null> {
         const prismaRaw = await prisma.book.findUnique({
 
