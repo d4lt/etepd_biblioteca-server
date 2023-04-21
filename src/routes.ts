@@ -8,8 +8,8 @@ const bookController = new BookController(repository);
 
 const router = Router();
 
-router.get("/home", async (req, res) => await bookController.listBooks(req, res) ) 
+router.get("/books", async (req, res) => await bookController.listBooks(req, res) ) 
 
-router.get("/home/:id", async (req, res) => await bookController.findBookById(req, res) )
+router.get("/books/:id", async (req, res) => await bookController.findBookById(req, res) )
 
 export { router, bookController }
