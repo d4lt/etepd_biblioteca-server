@@ -14,21 +14,21 @@ const book1: bookFields = {
     id: '13cddfcd-7108-4068-8d84-34855f6179a7',
     title: 'The Art of War',
     author: 'Sun Tzu',
-    isbn: '1234'
+    isbn: '9781599869773'
 }
 
 const book2: bookFields = { 
     id: 'a22c29da-e15f-41a8-bd4f-1055c08f5de7',
     title: "1984",
     author: 'George Orwell',
-    isbn: '4201'
+    isbn: '9791280035356'
 }
 
 const book3: bookFields = { 
     id: '0d21263a-de29-4d91-bbd8-c93cf92c7266',
     title: "Hamlet",
     author: 'Shakespeare',
-    isbn: '8923'
+    isbn: '9780743477123'
 
 }
 
