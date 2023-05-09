@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {BookController} from "./controllers/bookController";
-import { PrismaRepository } from "./repositories/prismaRepository";
+import { BookPrismaRepository } from "./repositories/prismaRepository/bookPrisma";
 
-const repository = new PrismaRepository();
+const repository = new BookPrismaRepository();
 
 const bookController = new BookController(repository);
 

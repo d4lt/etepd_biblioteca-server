@@ -1,7 +1,7 @@
-import { BookRepository, StudentRepository } from "./Repositories";
-import { prisma } from "../lib/prisma"
+import { BookRepository, UserRepository } from "./../Repositories";
+import { prisma } from "../../lib/prisma"
 import { Book as RawBook} from "@prisma/client";
-import { Book } from "../entities/bookEntity";
+import { Book } from "../../entities/Book/bookEntity";
 
 function toBook(prismaRaw: RawBook): Book {
 
@@ -15,7 +15,7 @@ function toBook(prismaRaw: RawBook): Book {
     return book
 }
 
-export class PrismaRepository implements BookRepository {
+export class BookPrismaRepository implements BookRepository {
 
     async findMany(): Promise<Book[]> {
         const prismaRaw = await prisma.book.findMany()

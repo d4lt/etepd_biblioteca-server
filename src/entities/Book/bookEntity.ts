@@ -65,8 +65,6 @@ export class Book {
     }
 
     public get isbn() {
-        
-
         return this.props.isbn
     }
 

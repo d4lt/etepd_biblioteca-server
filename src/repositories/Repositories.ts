@@ -1,4 +1,5 @@
-import { Book } from "../entities/bookEntity"
+import { Book } from "../entities/Book/bookEntity"
+import { User } from '../entities/User/UserEntity'
 
 export interface BookRepository {
     findMany(): Promise<Book[]>
@@ -7,4 +8,7 @@ export interface BookRepository {
     findBookByTitle(title: string): Promise<Book[]>
 }
 
-export interface UserRepository { }
+export interface UserRepository {
+    findMany(): Promise<User[]>
+    findUserById(id: string): Promise<User>
+}
