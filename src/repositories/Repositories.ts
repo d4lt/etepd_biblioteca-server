@@ -10,5 +10,5 @@ export interface BookRepository {
 
 export interface UserRepository {
     findMany(): Promise<User[]>
-    findUserById(id: string): Promise<User>
+    findUserById(id: string): Promise<User | null>
 }

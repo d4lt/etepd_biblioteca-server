@@ -19,10 +19,10 @@ export class UserController {
 
         const { id } = findByIdParams.parse( request.params )
 
-        const user = this.userRepository.findUserById( id )
+        const user = await this.userRepository.findUserById( id )
 
         if ( !user ) return response.send('The user was not found').status(404)
         
-        return response.json(user )
+        return response.json( user )
     }
 } 

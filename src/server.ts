@@ -1,5 +1,5 @@
 import express from 'express';
-import { router, bookController } from './routes';
+import { router } from './routes';
 
 const app = express();
 
