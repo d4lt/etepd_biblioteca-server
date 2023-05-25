@@ -8,7 +8,7 @@ function toUser(prismaRaw: RawUser): User {
     const user = new User({
         id: prismaRaw.id,
         name: prismaRaw.name,
-        createdAt: prismaRaw.createdAt
+        createdAt: prismaRaw.created_at
     })
 
     return user
@@ -17,10 +17,25 @@ function toUser(prismaRaw: RawUser): User {
 export class UserPrismaRepository implements UserRepository {
 
     async findMany(): Promise<User[]> {
-        const prismaRaw = prisma.user.findMany() 
+        const prismaRaw = await prisma.user.findMany() 
 
         const users: User[] = prismaRaw.map( toUser ) 
 
         return users
+    }
+
+    async findUserById(id: string): Promise<User | null> {
+       const prismaRaw = await prisma.user.findUnique({
+           where: {
+               id: id
+           }
+
+       }) 
+
+       if (!prismaRaw) return null
+
+       const user = toUser( prismaRaw )
+
+       return user
     }
 }
