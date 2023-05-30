@@ -11,18 +11,33 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   name       String
-  created_at DateTime @default(now())
+  created_at DateTime   @default(now())
+  UserBook   UserBook[]
 
   @@map("users")
 }
 
 model Book {
-  id     String @id @default(uuid())
-  title  String
-  author String
-  isbn   String @unique
+  id       String     @id @default(uuid())
+  title    String
+  author   String
+  isbn     String     @unique
+  UserBook UserBook[]
 
   @@map("books")
+}
+
+model UserBook {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
+
+  borrowedAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@id([userId, bookId])
 }
