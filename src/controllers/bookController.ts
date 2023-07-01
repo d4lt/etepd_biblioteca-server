@@ -3,15 +3,19 @@ import { z } from 'zod'
 import { BookRepository } from '../repositories/Repositories'
 
 
-
 export class BookController {
 
     constructor(private bookRepository: BookRepository) {}
 
-
-
     async listBooks(request:Request, response: Response) {
-        const books = await this.bookRepository.findMany()    
+        const titleFilter = request.query.title
+
+
+        // if (typeof titleFilter === 'string') console.log(titleFilter)
+        const books = typeof titleFilter === 'string' ? await this.bookRepository.findBookByTitle(titleFilter)
+            : await this.bookRepository.findMany();     
+
+        console.log(books)
 
         return response.json(books)
     }
@@ -44,16 +48,19 @@ export class BookController {
         return response.json(book)
     }
 
-    async findByTitle(request: Request, response: Response) {
-        const findByTitleParams = z.object({
-            title: z.string()
+    async createBook(request: Request, response: Response) {    
+        const createBookParams = z.object({
+            title: z.string().min(1).max(100),
+            author: z.string().min(1).max(100),
+            isbn: z.string().min(10).max(13) 
         })
 
-        const { title } = findByTitleParams.parse( request )
+        const { title, author, isbn } = createBookParams.parse( request.body )
 
-        const books = await this.bookRepository.findBookByTitle( title )
+        const book = await this.bookRepository.createBook( title, author, isbn )
 
-        return response.json(books)
+        return response.json(book)
+
     }
 
 }

@@ -1,9 +1,9 @@
-import { BookRepository, UserRepository } from "./../Repositories";
+import { BookRepository } from "./../Repositories";
 import { prisma } from "../../lib/prisma"
 import { Book as RawBook} from "@prisma/client";
 import { Book } from "../../entities/Book/bookEntity";
 
-function toBook(prismaRaw: RawBook): Book {
+const toBook = (prismaRaw: RawBook): Book => {
 
     const book = new Book({
         id: prismaRaw.id,
@@ -58,8 +58,10 @@ export class BookPrismaRepository implements BookRepository {
 
     async findBookByTitle(title: string): Promise<Book[]> {
         const prismaRaw = await prisma.book.findMany({
-            where:{
-                title: title
+            where: {
+                title: {
+                    contains: title,
+                },
             }
         }) 
 
@@ -67,4 +69,19 @@ export class BookPrismaRepository implements BookRepository {
 
         return booksByTitle
     }
+
+    async createBook(title: string, author: string, isbn: string): Promise<Book> {
+        const prismaRaw = await prisma.book.create({
+            data: {
+                title: title,
+                author: author,
+                isbn: isbn,
+            }
+        })
+
+        const book: Book = toBook( prismaRaw )
+        
+        return book
+    }
+    
 }
