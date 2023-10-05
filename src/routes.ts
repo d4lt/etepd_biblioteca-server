@@ -15,5 +15,6 @@ router.post("/books", async (req, res) => await bookController.createBook(req, r
 
 router.get("/users", async (req, res) => await userController.listUsers(req, res))
 router.get("/users/:id", async (req, res) => await userController.findUserById(req, res))
+router.post("/users", async (req, res) => await userController.createUser(req, res))
 
 export { router }

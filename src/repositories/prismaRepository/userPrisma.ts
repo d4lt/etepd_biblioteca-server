@@ -38,4 +38,16 @@ export class UserPrismaRepository implements UserRepository {
 
        return user
     }
+
+    async createUser(name: string): Promise<User> {
+        const prismaRaw = await prisma.user.create({
+            data:{
+                name: name
+            }
+        })
+
+        const user = toUser( prismaRaw )
+
+        return user
+    }
 }

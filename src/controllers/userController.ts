@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export class UserController {
    
-    constructor( private userRepository: UserRepository) {}
+    constructor( private userRepository: UserRepository)     {}
 
     async listUsers(request: Request, response: Response) {
         const users = await this.userRepository.findMany()
@@ -12,7 +12,7 @@ export class UserController {
         return response.json(users)
     }
 
-    async findUserById(request: Request, response: Response) {
+    async findUserById(request: Request, response: Response): Promise<Response> {
         const findByIdParams = z.object({
             id: z.string().uuid()
         })
@@ -25,4 +25,17 @@ export class UserController {
         
         return response.json( user )
     }
+    
+    async createUser(request: Request, response: Response): Promise<Response> {
+        const UserParams = z.object({
+            name: z.string().min(1).max(30),
+        })
+
+        const { name } = UserParams.parse(request.body)
+
+        const user = await this.userRepository.createUser(name)
+
+        return response.json(user)
+    }
+
 } 

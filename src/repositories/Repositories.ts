@@ -13,4 +13,5 @@ export interface BookRepository {
 export interface UserRepository {
     findMany(): Promise<User[]>
     findUserById(id: string): Promise<User | null>
+    createUser(name: string): Promise<User>
 }
